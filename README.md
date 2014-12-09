@@ -14,8 +14,6 @@ Needs the following libraries
 ## Configure
 Edit config.php
 
-cd into local directory
-
 ## Run
 Starts importing journals
 ```
