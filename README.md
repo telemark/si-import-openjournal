@@ -15,7 +15,7 @@ Needs the following libraries
 Edit config.php
 
 ## Run
-Starts importing journals
+Start importing journals
 ```
 $ php import_journals.php
 ```

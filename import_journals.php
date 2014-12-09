@@ -15,7 +15,7 @@ $files = $jfiles->getFiles(JOURNALS_FILES);
 $import_files = $jfiles->import($files);
 
 foreach ($import_files as $import_file) {
-	// Load XML-file
+	// Load XML-file to simple xml array
 	$sxml = $jimport->loadXml($import_file);
 
 	// Create journals array
