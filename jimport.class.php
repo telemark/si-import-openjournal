@@ -98,6 +98,9 @@ class JImport {
 
 	// Create journals array
 	function createJournals($xml) {
+		if (!isset($xml->RAPPORT->{'NOARKSAK.OJ'}->{'JOURNPOST.OJ'}->{'JP.JDATO'})) {
+			 Logger("ERR", "No journals found in file");
+		}
 		$this->journal_date = (int) $xml->RAPPORT->{'NOARKSAK.OJ'}->{'JOURNPOST.OJ'}->{'JP.JDATO'};
 		$this->journal_dir = (string) basename($xml->PRODINFO->FIL->{'PI.FILNAVN'}, ".xml") . "/";
 		Logger("INFO", "Journal date: $this->journal_date");

@@ -2,14 +2,21 @@
 
 class JFiles {
 
+	function listFiles($folder) {
+		$src_files = array_diff(scandir($folder), array("..", "."));
+		if (empty($src_files)) {
+			Logger("ERR", "No journals found in $folder");
+		}
+		return $src_files;
+	}
+
 	// List filnames in folder to array
 	function getFiles($folder) {
-		if (file_exists($folder)) {
-			$src_files = array_diff(scandir($folder), array("..", "."));
-			return $src_files;
-		} else {
+		if (!file_exists($folder)) {
 			Logger("ERR", "Folder not found");
 		}
+		$src_files = $this->listFiles($folder);
+		return $src_files;
 	}
 
 	// Create destination directory for zip-file
@@ -30,7 +37,7 @@ class JFiles {
 	        if ($res === TRUE) {
         	        $zip->extractTo($destination);
                 	$zip->close();
-                	//$this->delFile($src_path);
+                	$this->delFile($source);
 	                Logger("INFO", "File: $source extracted to $destination");
 			return true;
 	        } else {
