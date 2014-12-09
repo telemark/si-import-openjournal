@@ -3,7 +3,7 @@ si-import-openjournal
 
 Import open jornal for Software Innovation til MongoDb
 
-# Dependencies
+## Dependencies
 Needs the following libraries
 * php5
 * php5-mongo
@@ -11,12 +11,12 @@ Needs the following libraries
 * php5-json
 * and a running mongodb server
 
-# Configure
+## Configure
 Edit config.php
 
 cd into local directory
 
-# Run
+## Run
 Starts importing journals
 ```
 $ php import_journals.php
