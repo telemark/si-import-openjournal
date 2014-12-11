@@ -25,6 +25,6 @@ foreach ($import_files as $import_file) {
 	// $jimport->outputJson($arr); die();
 
 	// Insert array to mongo
-	$jimport->mInsert($result);
+	$db_result = $jimport->mInsert($result);
 }
 ?>

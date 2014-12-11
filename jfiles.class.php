@@ -37,8 +37,9 @@ class JFiles {
 	        if ($res === TRUE) {
         	        $zip->extractTo($destination);
                 	$zip->close();
+			Logger("INFO", "File: $source extracted to $destination");
                 	$this->delFile($source);
-	                Logger("INFO", "File: $source extracted to $destination");
+			Logger("INFO", "File: Deleted $source");
 			return true;
 	        } else {
         	        Logger("ERR", "$source not extracted: $res");

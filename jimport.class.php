@@ -19,10 +19,10 @@ class JImport {
 		Logger("INFO", "Connecting to database");
 
 		// Use database
-		$db = $m->$DB_NAME;
+		$db = $m->{DB_NAME};
 
 		// Select collection
-		$collection = $db->$JOURNALS_COLLECTION;
+		$collection = $db->{JOURNALS_COLLECTION};
 
 		// Removing all journals with given journaldate
 		$qry = array('JOURNPOST_OJ.JP_JDATO' => $this->journal_date);
