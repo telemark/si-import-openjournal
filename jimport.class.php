@@ -111,8 +111,7 @@ class JImport {
 		$doc['DOKBESKRIV_OJ']['DOKVERSJON_OJ']['VE_VERSJON'] = (int) $xml_doc->{'DOKBESKRIV.OJ'}->{'DOKVERSJON.OJ'}->{'VE.VERSJON'};
 		$doc['DOKBESKRIV_OJ']['DOKVERSJON_OJ']['VE_VARIANT'] = (string) $xml_doc->{'DOKBESKRIV.OJ'}->{'DOKVERSJON.OJ'}->{'VE.VARIANT'};
 		$doc['DOKBESKRIV_OJ']['DOKVERSJON_OJ']['VE_FILREF'] = (string) $xml_doc->{'DOKBESKRIV.OJ'}->{'DOKVERSJON.OJ'}->{'VE.FILREF'};
-		$doc['DOKBESKRIV_OJ']['DOKVERSJON_OJ']['VE_FILURL'] = (string) JOURNALS_DOWNLOAD_URL . $this->journal_dir . 
-$xml_doc->{'DOKBESKRIV.OJ'}->{'DOKVERSJON.OJ'}->{'VE.FILREF'};
+		$doc['DOKBESKRIV_OJ']['DOKVERSJON_OJ']['VE_FILURL'] = (string) JOURNALS_DOWNLOAD_URL . $this->journal_dir . $xml_doc->{'DOKBESKRIV.OJ'}->{'DOKVERSJON.OJ'}->{'VE.FILREF'};
 		return $doc;
 	}
 
