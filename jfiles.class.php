@@ -27,6 +27,7 @@ class JFiles {
 
 	function delFile($src_path) {
 		unlink($src_path);
+		Logger("INFO", "File: Deleted $src_path");
 	}
 
 	// Unzip file
@@ -39,7 +40,6 @@ class JFiles {
                 	$zip->close();
 			Logger("INFO", "File: $source extracted to $destination");
                 	$this->delFile($source);
-			Logger("INFO", "File: Deleted $source");
 			return true;
 	        } else {
         	        Logger("ERR", "$source not extracted: $res");

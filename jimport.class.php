@@ -2,12 +2,20 @@
 
 class JImport {
 
-	var $journal_date;
+	var $journal_from_date;
+	var $journal_to_date;
 	var $journal_dir;
+
+	function returnDates($fromdate, $todate) {
+		$fromdate = \DateTime::createFromFormat('Ymd', $fromdate);
+		$todate = \DateTime::createFromFormat('Ymd', $todate);
+		return new \DatePeriod($fromdate, new \DateInterval('P1D'), $todate->modify('+1 day'));
+	}
 
 	// Load xml-file
 	function loadXml($file) {
 		Logger("INFO", "Loading xml: $file");
+		//$str = iconv('ISO-8859-1', 'UTF-8', file_get_contents($file));
 		$sarray = simplexml_load_file($file) or Logger("ERR", "Cannot create object from XML");
 		return $sarray;
 	}
@@ -25,9 +33,14 @@ class JImport {
 		$collection = $db->{JOURNALS_COLLECTION};
 
 		// Removing all journals with given journaldate
-		$qry = array('JOURNPOST_OJ.JP_JDATO' => $this->journal_date);
-		$collection->remove($qry);
-		Logger("INFO", "Removing journals with same journaldate");
+
+		$datePeriod = $this->returnDates($this->journal_from_date, $this->journal_to_date);
+		foreach($datePeriod as $date) {
+			$remove_date = (int) $date->format('Ymd');
+			$qry = array('JOURNPOST_OJ.JP_JDATO' => $remove_date);
+			Logger("INFO", "Removing journals with journal date: $remove_date");
+			$collection->remove($qry);
+		}
 
 		// Insert array to database
 		$collection->batchInsert($array);
@@ -75,8 +88,15 @@ class JImport {
 		$jpost['JP_TGKODE'] = (string) $xml_jpost->{'JP.TGKODE'};
 		$jpost['JP_TGVERDI'] = (int) $xml_jpost->{'JP.TGVERDI'};
 		$jpost['JP_ANSVAVD'] = (string) $xml_jpost->{'JP.ANSVAVD'};
-                $jpost['AVSMOT_OJ']['AM_NAVN'] = (string) $xml_jpost->{'AVSMOT.OJ'}->{'AM.NAVN'};
-                $jpost['AVSMOT_OJ']['AM_IHTYPE'] = (int) $xml_jpost->{'AVSMOT.OJ'}->{'AM.IHTYPE'};
+
+		// Check if it has xml tag <PNAVN>
+		if(!empty($xml_jpost->{'AVSMOT.OJ'}->{'AM.NAVN'}->{'PNAVN'})) {
+	                $jpost['AVSMOT_OJ']['PNAVN'] = (string) $xml_jpost->{'AVSMOT.OJ'}->{'AM.NAVN'}->{'PNAVN'};
+		} else {
+			$jpost['AVSMOT_OJ']['AM_NAVN'] = (string) $xml_jpost->{'AVSMOT.OJ'}->{'AM.NAVN'};
+		}
+
+		$jpost['AVSMOT_OJ']['AM_IHTYPE'] = (int) $xml_jpost->{'AVSMOT.OJ'}->{'AM.IHTYPE'};
 		return $jpost;
 	}
 
@@ -91,18 +111,21 @@ class JImport {
 		$doc['DOKBESKRIV_OJ']['DOKVERSJON_OJ']['VE_VERSJON'] = (int) $xml_doc->{'DOKBESKRIV.OJ'}->{'DOKVERSJON.OJ'}->{'VE.VERSJON'};
 		$doc['DOKBESKRIV_OJ']['DOKVERSJON_OJ']['VE_VARIANT'] = (string) $xml_doc->{'DOKBESKRIV.OJ'}->{'DOKVERSJON.OJ'}->{'VE.VARIANT'};
 		$doc['DOKBESKRIV_OJ']['DOKVERSJON_OJ']['VE_FILREF'] = (string) $xml_doc->{'DOKBESKRIV.OJ'}->{'DOKVERSJON.OJ'}->{'VE.FILREF'};
-		$doc['DOKBESKRIV_OJ']['DOKVERSJON_OJ']['VE_FILURL'] = (string) JOURNALS_DOWNLOAD_URL . $this->journal_dir . $xml_doc->{'DOKBESKRIV.OJ'}->{'DOKVERSJON.OJ'}->{'VE.FILREF'};
+		$doc['DOKBESKRIV_OJ']['DOKVERSJON_OJ']['VE_FILURL'] = (string) JOURNALS_DOWNLOAD_URL . $this->journal_dir . 
+$xml_doc->{'DOKBESKRIV.OJ'}->{'DOKVERSJON.OJ'}->{'VE.FILREF'};
 		return $doc;
 	}
 
 	// Create journals array
 	function createJournals($xml) {
+		// No journals found
 		if (!isset($xml->RAPPORT->{'NOARKSAK.OJ'}->{'JOURNPOST.OJ'}->{'JP.JDATO'})) {
-			 Logger("ERR", "No journals found in file");
+			return;
 		}
-		$this->journal_date = (int) $xml->RAPPORT->{'NOARKSAK.OJ'}->{'JOURNPOST.OJ'}->{'JP.JDATO'};
+		$this->journal_from_date = (int) $xml->PRODINFO->{'PI.FRADATO'};
+		$this->journal_to_date = (int) $xml->PRODINFO->{'PI.TILDATO'};
 		$this->journal_dir = (string) basename($xml->PRODINFO->FIL->{'PI.FILNAVN'}, ".xml") . "/";
-		Logger("INFO", "Journal date: $this->journal_date");
+		Logger("INFO", "Journal date from: $this->journal_from_date to $this->journal_to_date");
 
 		// Loop through cases
 		foreach ($xml->RAPPORT->{'NOARKSAK.OJ'} as $case) {

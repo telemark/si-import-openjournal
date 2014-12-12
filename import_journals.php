@@ -20,6 +20,10 @@ foreach ($import_files as $import_file) {
 
 	// Create journals array
 	$result = $jimport->createJournals($sxml);
+	if (empty($result)) {
+		Logger("INFO", "No journals found in file");
+		continue;
+	}
 
 	// Debug
 	// $jimport->outputJson($arr); die();
