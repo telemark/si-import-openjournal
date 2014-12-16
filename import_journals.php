@@ -15,10 +15,10 @@ $files = $jfiles->getFiles(JOURNALS_FILES);
 $import_files = $jfiles->import($files);
 
 foreach ($import_files as $import_file) {
-	// Load XML-file to simple xml array
+	// Load XML-file as object
 	$sxml = $jimport->loadXml($import_file);
 
-	// Create journals array
+	// Create journals array from object
 	$result = $jimport->createJournals($sxml);
 	if (empty($result)) {
 		Logger("INFO", "No journals found in file");
@@ -26,7 +26,7 @@ foreach ($import_files as $import_file) {
 	}
 
 	// Debug
-	// $jimport->outputJson($arr); die();
+	// $jimport->outputJson($result); die();
 
 	// Insert array to mongo
 	$db_result = $jimport->mInsert($result);

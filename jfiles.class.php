@@ -25,13 +25,32 @@ class JFiles {
 		return $dir;
 	}
 
+	// Delete file
 	function delFile($src_path) {
 		unlink($src_path);
 		Logger("INFO", "File: Deleted $src_path");
 	}
 
+	// Delete all files in folder and folder
+	function delFolder($dir) {
+		foreach (scandir($dir) as $item) {
+			if ($item == '.' || $item == '..') {
+				continue;
+			}
+
+ 			unlink($dir.DIRECTORY_SEPARATOR.$item);
+
+			}
+		Logger("INFO", "Removed directory $dir");
+		rmdir($dir);
+	}
+
 	// Unzip file
 	function unzip($source, $destination) {
+		if (is_dir($destination)) {
+			$this->delFolder($destination);
+		}
+
 		$zip = new ZipArchive;
 
 		$res = $zip->open($source);

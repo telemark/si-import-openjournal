@@ -6,6 +6,7 @@ class JImport {
 	var $journal_to_date;
 	var $journal_dir;
 
+	// Return fromdate and todate and dates between
 	function returnDates($fromdate, $todate) {
 		$fromdate = \DateTime::createFromFormat('Ymd', $fromdate);
 		$todate = \DateTime::createFromFormat('Ymd', $todate);
@@ -15,9 +16,8 @@ class JImport {
 	// Load xml-file
 	function loadXml($file) {
 		Logger("INFO", "Loading xml: $file");
-		//$str = iconv('ISO-8859-1', 'UTF-8', file_get_contents($file));
-		$sarray = simplexml_load_file($file) or Logger("ERR", "Cannot create object from XML");
-		return $sarray;
+		$sobject = simplexml_load_file($file) or Logger("ERR", "Cannot create object from XML");
+		return $sobject;
 	}
 
 	// Insert to mongo
@@ -67,7 +67,6 @@ class JImport {
 
 	// Create Classification array
 	function createClassifiction($xml_class) {
-
 		$classification['KL_ORDNVERDI'] = (string) $xml_class->{'KL.ORDNVERDI'};
 		$classification['KL_SORT'] = (int) $xml_class->{'KL.SORT'};
 		$classification['KL_OPLTEKST'] = (string) $xml_class->{'KL.OPLTEKST'};
@@ -132,7 +131,7 @@ class JImport {
 
 			// Loop through classifications
 			foreach($case->{'KLASSERING.OJ'} as $classification) {
-				$journal['KLASSERING_OJ'][] = $this->createClassifiction($classification);;
+				$journal['KLASSERING_OJ'][] = $this->createClassifiction($classification);
 			}
 
 			// Sets journals info
