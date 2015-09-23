@@ -50,10 +50,14 @@ Add this to /etc/fstab
 //hostname.domain.no/Postlister_export /mnt/journals cifs uid=<user>,gid=<user>,credentials=<path>.smbcred,iocharset=utf8,sec=ntlm 0 0
 ```
 
-Add this to <path>.smbcred
+Add this to /path/to/.smbcred
 ```
 username:<username>
 password:<password>
+```
+Mount it
+```
+mount /mnt/journals
 ```
 
 ## Run
