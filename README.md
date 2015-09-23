@@ -35,7 +35,7 @@ sudo apt-get install nginx
 
 ## Configure
 Edit config.php
-* DOWNLOAD_URL (URL Where documents are downloaded from)
+* DOWNLOAD_URL (URL where documents are downloaded from)
 * DOWNLOAD_PATH (Directory where documents are moved internal on server)
 * JOURNALS_FILES (Directory where ZIP-files from openjournal are placed)
 
@@ -60,11 +60,18 @@ Mount it
 mount /mnt/journals
 ```
 
-## Run
+## Run test
 Start importing journals
 ```
 $ php import_journals.php
 ```
+## See if documents are placed in mongo
+```
+mongo
+mongo> use tfk
+mongo>db.journals.find()
+```
+
 ## Crontab
 ```
 */10 	* * * *	<user>	php <path>/import_journals.php
