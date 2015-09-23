@@ -36,6 +36,22 @@ sudo apt-get install nginx
 ## Configure
 Edit config.php
 
+## Fileshare
+Mount fileshare
+Add this to /etc/fstab
+```
+mkdir /mnt/journals
+//hostname.domain.no/Postlister_export /mnt/journals cifs uid=<user>,gid=<user>,credentials=<path>.smbcred,iocharset=utf8,sec=ntlm 0 0
+```
+```
+vim <path>.smbcred
+```
+Add:
+```
+username:<username>
+password:<password>
+```
+
 ## Run
 Start importing journals
 ```
