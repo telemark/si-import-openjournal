@@ -1,7 +1,7 @@
 si-import-openjournal
 =====================
 
-Import open jornal for Software Innovation til MongoDb
+Import openjournal from Software Innovation to MongoDb
 
 ## Dependencies
 Needs the following libraries
