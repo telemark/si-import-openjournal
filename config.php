@@ -17,7 +17,6 @@ define('DOWNLOAD_PATH', '/srv/ws/files/journals/');
 /* Application spesific settings */
 
 // 360 Journals
-define('360_JOURNALS', true); // Activate 360 Journals import
 define('JOURNALS_COLLECTION', 'journals');
 define('JOURNALS_FILES', '/mnt/journals/');
 define('JOURNALS_DOWNLOAD_URL', DOWNLOAD_URL . 'journals/');

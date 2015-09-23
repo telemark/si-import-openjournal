@@ -19,3 +19,5 @@ Start importing journals
 ```
 $ php import_journals.php
 ```
+## Crontab
+*/10 	* * * *	<user>	php <path>/import_journals.php

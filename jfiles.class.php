@@ -47,6 +47,7 @@ class JFiles {
 
 	// Unzip file
 	function unzip($source, $destination) {
+		// if folder exists delete it before unzipping new
 		if (is_dir($destination)) {
 			$this->delFolder($destination);
 		}
