@@ -37,16 +37,17 @@ sudo apt-get install nginx
 Edit config.php
 
 ## Fileshare
-Mount fileshare
-Add this to /etc/fstab
+Create /mnt/journals
 ```
 mkdir /mnt/journals
+```
+
+Add this to /etc/fstab
+```
 //hostname.domain.no/Postlister_export /mnt/journals cifs uid=<user>,gid=<user>,credentials=<path>.smbcred,iocharset=utf8,sec=ntlm 0 0
 ```
-```
-vim <path>.smbcred
-```
-Add:
+
+Add this to <path>.smbcred
 ```
 username:<username>
 password:<password>
