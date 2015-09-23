@@ -35,6 +35,8 @@ sudo apt-get install nginx
 
 ## Configure
 Edit config.php
+* DOWNLOAD_URL
+* 
 
 ## Fileshare
 Create /mnt/journals
