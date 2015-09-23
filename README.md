@@ -35,8 +35,9 @@ sudo apt-get install nginx
 
 ## Configure
 Edit config.php
-* DOWNLOAD_URL
-* 
+* DOWNLOAD_URL (URL Where documents are downloaded from)
+* DOWNLOAD_PATH (Directory where documents are moved internal on server)
+* JOURNALS_FILES (Directory where ZIP-files from openjournal are placed)
 
 ## Fileshare
 Create /mnt/journals
