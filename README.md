@@ -69,10 +69,10 @@ $ php import_journals.php
 ```
 mongo
 mongo> use tfk
-mongo>db.journals.find()
+mongo> db.journals.find()
 ```
 
-## Crontab
+## Add job to crontab
 ```
 */10 	* * * *	<user>	php <path>/import_journals.php
 ```
